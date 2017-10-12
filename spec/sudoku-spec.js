@@ -1,6 +1,39 @@
 import { Sudoku } from './../js/sudoku.js'
 
 describe('Sudoku', function() {
+  describe('full', function() {
+    it('returns true if a board has numbers in all slots', function() {
+      let board = [
+        [1,7,4,2,8,5,3,6,9],
+        [8,3,5,6,9,4,2,1,7],
+        [6,9,2,1,7,3,8,4,5],
+        [2,4,6,5,1,7,9,8,3],
+        [3,8,1,9,6,2,5,7,4],
+        [7,5,9,3,4,8,1,2,6],
+        [5,6,3,4,2,1,7,9,8],
+        [4,1,7,8,5,9,6,3,2],
+        [9,2,8,7,3,6,4,5,1]
+      ];
+      let sudoku = new Sudoku(board);
+      expect(sudoku.full(board)).toEqual(true);
+    });
+
+    it('returns false if a board does not have numbers in all slots', function() {
+      let board = [
+        [1,7,4,2,8,5,3,6,9],
+        [8,3,5,6,9,4,2,1,7],
+        [6,9,2,1,7,3,8,4,5],
+        [2,4,6,5,,7,9,8,3],
+        [3,8,1,9,6,2,5,7,4],
+        [7,5,9,3,4,8,1,2,6],
+        [5,6,3,4,2,1,7,9,8],
+        [4,1,7,8,5,9,6,3,2],
+        [9,2,8,7,3,6,4,5,1]
+      ];
+      let sudoku = new Sudoku(board);
+      expect(sudoku.full(board)).toEqual(false);
+    });
+  });
 
   describe('isLegal', function() {
     it("returns false if a column does not have the numbers 1-9 once each", function() {

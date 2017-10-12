@@ -3,25 +3,49 @@ export class Sudoku {
     this.board = board;
   }
 
+  solve() {
+    let solution = this.board.slice();
+
+  }
+
+  solver(board) {
+
+  }
+
+  full(board) {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (!board[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   isLegal() {
+    return this.legal(this.board);
+  }
+
+  legal(board) {
     let columnNumbers;
     let rowNumbers;
     for (let i = 0; i < 9; i++) {
       let columnNumbers = new Array(9);
       let rowNumbers = new Array(9);
       for (let j = 0; j < 9; j++) {
-        if (this.board[i][j]) {
-          if (columnNumbers[this.board[i][j]]) {
+        if (board[i][j]) {
+          if (columnNumbers[board[i][j]]) {
             return false;
           } else {
-            columnNumbers[this.board[i][j]] = true;
+            columnNumbers[board[i][j]] = true;
           }
         }
-        if (this.board[j][i]) {
-          if (rowNumbers[this.board[j][i]]) {
+        if (board[j][i]) {
+          if (rowNumbers[board[j][i]]) {
             return false;
           } else {
-            rowNumbers[this.board[j][i]] = true;
+            rowNumbers[board[j][i]] = true;
           }
         }
       }
@@ -32,11 +56,11 @@ export class Sudoku {
         subSquareNumbers = new Array(9);
         for (let k = 0; k < 3; k++) {
           for (let l = 0; l < 3; l++) {
-            if (this.board[(i * 3) + k][(j * 3) + l]) {
-              if (subSquareNumbers[this.board[(i * 3) + k][(j * 3) + l]]) {
+            if (board[(i * 3) + k][(j * 3) + l]) {
+              if (subSquareNumbers[board[(i * 3) + k][(j * 3) + l]]) {
                 return false;
               } else {
-                subSquareNumbers[this.board[(i * 3) + k][(j * 3) + l]] = true;
+                subSquareNumbers[board[(i * 3) + k][(j * 3) + l]] = true;
               }
             }
           }
