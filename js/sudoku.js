@@ -58,6 +58,10 @@ export class Sudoku {
     return copy;
   }
 
+  isSolved() {
+    return this.full(this.board) && this.legal(this.board);
+  }
+
   full(board) {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
