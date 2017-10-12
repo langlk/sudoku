@@ -56,5 +56,37 @@ describe('Sudoku', function() {
       let sudoku = new Sudoku(board);
       expect(sudoku.isLegal()).toEqual(true);
     });
+
+    it('find if an incomplete board is legal', function() {
+      let board = [
+        [1,7,4,2,8,5,3,6,9],
+        [8,3,5,,9,4,2,1,7],
+        [,9,2,,7,3,8,4,5],
+        [2,4,6,5,1,7,9,8,3],
+        [3,8,1,9,6,2,5,7,4],
+        [7,5,9,3,4,8,1,2,6],
+        [5,6,3,4,2,,7,9,8],
+        [4,1,7,,5,,6,3,2],
+        [9,2,8,7,3,6,4,5,1]
+      ];
+      let sudoku = new Sudoku(board);
+      expect(sudoku.isLegal()).toEqual(true);
+    });
+
+    it("finds if an incomplete board is illegal", function() {
+      let board = [
+        [1,7,4,2,8,5,3,6,9],
+        [8,3,5,1,9,4,2,1,7],
+        [1,9,2,1,7,3,8,4,5],
+        [2,4,6,5,1,7,9,8,3],
+        [3,,,,6,2,5,7,4],
+        [7,5,9,3,4,8,1,2,6],
+        [5,6,3,4,2,,7,9,8],
+        [4,1,7,,5,,6,3,2],
+        [9,2,,7,3,6,4,5,1]
+      ];
+      let sudoku = new Sudoku(board);
+      expect(sudoku.isLegal()).toEqual(false);
+    });
   });
 });
