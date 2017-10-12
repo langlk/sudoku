@@ -4,12 +4,60 @@ export class Sudoku {
   }
 
   solve() {
-    let solution = this.board.slice();
-
+    let boardCopy = [].concat(this.board);
+    let solution = this.solver(boardCopy);
+    console.log(solution);
+    return solution;
   }
 
   solver(board) {
+    // find first blank
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (!board[i][j]) {
+          let squareSolutions = []
+          for (let k = 1; k <= 9; k++) {
+            // fill in blank
+            board[i][j] = k;
+            // check if blank is legal
+            if (this.legal(board)) {
+              // if legal, recurse
+              let result = this.solver([].concat(board));
+              if (result) {
+                console.log("solution happened");
+                squareSolutions = squareSolutions.concat(result);
+              } else {
+                board[i][j] = false;
+              }
+            } // otherwise, try next number
+          }
+          if (squareSolutions.length === 0) {
+            return false;
+          } else {
+            debugger;
+            return squareSolutions;
+          }
+        }
+      }
+    }
+    debugger;
+    if (this.full(board)) {
+      let copy = [].concat(board);
+      return [copy];
+    } else {
+      return false;
+    }
+  }
 
+  copy(board) {
+    let copy = new Array(9);
+    for (let i = 0; i < 9; i++) {
+      copy[i] = [];
+      board[i].forEach(function(value) {
+        copy.push(value);
+      });
+    }
+    return copy;
   }
 
   full(board) {
