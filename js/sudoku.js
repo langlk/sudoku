@@ -4,7 +4,7 @@ export class Sudoku {
   }
 
   solve() {
-    let boardCopy = [].concat(this.board);
+    let boardCopy = this.copy(this.board);
     let solution = this.solver(boardCopy);
     console.log(solution);
     return solution;
@@ -22,27 +22,25 @@ export class Sudoku {
             // check if blank is legal
             if (this.legal(board)) {
               // if legal, recurse
-              let result = this.solver([].concat(board));
+              let result = this.solver(this.copy(board));
               if (result) {
-                console.log("solution happened");
                 squareSolutions = squareSolutions.concat(result);
               } else {
-                board[i][j] = false;
+                board[i][j] = null;
               }
             } // otherwise, try next number
           }
           if (squareSolutions.length === 0) {
             return false;
           } else {
-            debugger;
             return squareSolutions;
           }
         }
       }
     }
-    debugger;
     if (this.full(board)) {
-      let copy = [].concat(board);
+      let copy = this.copy(board);
+      console.log(copy);
       return [copy];
     } else {
       return false;
@@ -53,9 +51,9 @@ export class Sudoku {
     let copy = new Array(9);
     for (let i = 0; i < 9; i++) {
       copy[i] = [];
-      board[i].forEach(function(value) {
-        copy.push(value);
-      });
+      for (let j = 0; j < 9; j++) {
+        copy[i].push(board[i][j]);
+      }
     }
     return copy;
   }
