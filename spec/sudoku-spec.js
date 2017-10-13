@@ -28,6 +28,12 @@ describe('Sudoku', function() {
       ];
       let sudoku = new Sudoku(board);
       expect(sudoku.solve()).toEqual([solutionBoard]);
+      let copy = sudoku.copy(board);
+      console.log("Old Board")
+      console.log(copy);
+      console.log("New Board")
+      console.log(sudoku.board);
+      expect(sudoku.board).toEqual(copy);
     });
 
     it('solves a sudoku with multiple possible solutions, returning all solution boards', function() {

@@ -4,8 +4,8 @@ export class Sudoku {
   }
 
   solve() {
-    let boardCopy = this.copy(this.board);
-    let solution = this.solver(boardCopy);
+    let solution = this.solver(this.board);
+    console.log(solution);
     return solution;
   }
 
@@ -21,13 +21,12 @@ export class Sudoku {
             // check if blank is legal
             if (this.legal(board)) {
               // if legal, recurse
-              let result = this.solver(this.copy(board));
+              let result = this.solver(board);
               if (result) {
                 squareSolutions = squareSolutions.concat(result);
-              } else {
-                board[i][j] = null;
               }
             } // otherwise, try next number
+            board[i][j] = null;
           }
           if (squareSolutions.length === 0) {
             return false;
