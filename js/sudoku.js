@@ -6,7 +6,6 @@ export class Sudoku {
   solve() {
     let boardCopy = this.copy(this.board);
     let solution = this.solver(boardCopy);
-    console.log(solution);
     return solution;
   }
 
@@ -40,10 +39,48 @@ export class Sudoku {
     }
     if (this.full(board)) {
       let copy = this.copy(board);
-      console.log(copy);
       return [copy];
     } else {
       return false;
+    }
+  }
+
+  unsolve() {
+    let boardCopy = this.copy(this.board);
+    return this.unsolver(boardCopy, 40);
+  }
+
+  unsolver(board, counter) {
+    // Only allow eighty tries or this will take too long
+    let max = 80;
+    let count = 0;
+    let x = Math.floor(Math.random() * 9);
+    let y = Math.floor(Math.random() * 9);
+    let former = board[x][y];
+    board[x][y] = null;
+    // We want only one solution so we pass over any changes that produce multiple possible solutions
+    while (this.solver(this.copy(board)).length > 1 && count < max) {
+      board[x][y] = former;
+      x = Math.floor(Math.random() * 9);
+      y = Math.floor(Math.random() * 9);
+      former = board[x][y];
+      board[x][y] = null;
+      count++;
+    }
+    if (count >= max) {
+      board[x][y] = former;
+      return false;
+    } else {
+      if (counter > 0) {
+        let result = this.unsolver(this.copy(board), counter - 1);
+        if (result) {
+          return result;
+        } else {
+          return board;
+        }
+      } else {
+        return board;
+      }
     }
   }
 
