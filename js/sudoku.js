@@ -5,7 +5,6 @@ export class Sudoku {
 
   solve() {
     let solution = this.solver(this.board);
-    console.log(solution);
     return solution;
   }
 
