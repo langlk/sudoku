@@ -45,9 +45,10 @@ export class Sudoku {
     }
   }
 
-  unsolve() {
+  unsolve(difficulty) {
+    const difficulties = {"easy": 25, "medium": 35, "hard": 75};
     let boardCopy = this.copy(this.board);
-    return this.unsolver(boardCopy, 40);
+    return this.unsolver(boardCopy, difficulties[difficulty]);
   }
 
   unsolver(board, counter) {
@@ -67,18 +68,21 @@ export class Sudoku {
       board[x][y] = null;
       count++;
     }
+    // If count >= max, we didn't find a square to remove that didn't create multiple solutions: time to admit defeat, reset last square changed.
     if (count >= max) {
       board[x][y] = former;
       return false;
     } else {
+      // If our counter is still > 0, we want to keep removing squares
       if (counter > 0) {
         let result = this.unsolver(this.copy(board), counter - 1);
+        // if we got a result, return it. Otherwise, just return current board
         if (result) {
           return result;
         } else {
           return board;
         }
-      } else {
+      } else { // Counter is up, stop recursing
         return board;
       }
     }

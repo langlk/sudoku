@@ -86,10 +86,35 @@ describe('Sudoku', function() {
         [9,2,8,7,3,6,4,5,1]
       ];
       let sudoku = new Sudoku(board);
-      let puzzle = sudoku.unsolve();
+      let puzzle = sudoku.unsolve("easy");
       console.log(puzzle);
       let sudoku2 = new Sudoku(puzzle);
       expect(sudoku2.solve()).toEqual([sudoku.board]);
+    });
+
+    it("allows different difficulty levels", function() {
+      let board = [
+        [1,7,4,2,8,5,3,6,9],
+        [8,3,5,6,9,4,2,1,7],
+        [6,9,2,1,7,3,8,4,5],
+        [2,4,6,5,1,7,9,8,3],
+        [3,8,1,9,6,2,5,7,4],
+        [7,5,9,3,4,8,1,2,6],
+        [5,6,3,4,2,1,7,9,8],
+        [4,1,7,8,5,9,6,3,2],
+        [9,2,8,7,3,6,4,5,1]
+      ];
+      let sudoku = new Sudoku(board);
+      let puzzle = sudoku.unsolve("hard");
+      console.log("hard");
+      console.log(puzzle);
+      let puzzle2 = sudoku.unsolve("medium");
+      console.log("medium");
+      console.log(puzzle2);
+      let sudoku2 = new Sudoku(puzzle);
+      let sudoku3 = new Sudoku(puzzle2);
+      expect(sudoku2.solve()).toEqual([sudoku.board]);
+      expect(sudoku3.solve()).toEqual([sudoku.board]);
     });
   });
 
