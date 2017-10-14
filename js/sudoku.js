@@ -42,37 +42,41 @@ export class Sudoku {
     } else {
       return false;
     }
-    // for (let i = 0; i < 9; i++) {
-    //   for (let j = 0; j < 9; j++) {
-    //     if (!board[i][j]) {
-    //       let squareSolutions = []
-    //       for (let k = 1; k <= 9; k++) {
-    //         // fill in blank
-    //         board[i][j] = k;
-    //         // check if blank is legal
-    //         if (this.legal(board)) {
-    //           // if legal, recurse
-    //           let result = this.solver(board);
-    //           if (result) {
-    //             squareSolutions = squareSolutions.concat(result);
-    //           }
-    //         } // otherwise, try next number
-    //         board[i][j] = null;
-    //       }
-    //       if (squareSolutions.length === 0) {
-    //         return false;
-    //       } else {
-    //         return squareSolutions;
-    //       }
-    //     }
-    //   }
-    // }
-    // if (this.full(board)) {
-    //   let copy = this.copy(board);
-    //   return [copy];
-    // } else {
-    //   return false;
-    // }
+  }
+
+  oldsolver(board) {
+    // find first blank
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (!board[i][j]) {
+          let squareSolutions = []
+          for (let k = 1; k <= 9; k++) {
+            // fill in blank
+            board[i][j] = k;
+            // check if blank is legal
+            if (this.legal(board)) {
+              // if legal, recurse
+              let result = this.oldsolver(board);
+              if (result) {
+                squareSolutions = squareSolutions.concat(result);
+              }
+            } // otherwise, try next number
+            board[i][j] = null;
+          }
+          if (squareSolutions.length === 0) {
+            return false;
+          } else {
+            return squareSolutions;
+          }
+        }
+      }
+    }
+    if (this.full(board)) {
+      let copy = this.copy(board);
+      return [copy];
+    } else {
+      return false;
+    }
   }
 
   unsolve(difficulty) {
@@ -90,7 +94,7 @@ export class Sudoku {
     let former = board[x][y];
     board[x][y] = null;
     // We want only one solution so we pass over any changes that produce multiple possible solutions
-    while (this.solver(this.copy(board)).length > 1 && count < max) {
+    while (this.oldsolver(this.copy(board)).length > 1 && count < max) {
       board[x][y] = former;
       x = Math.floor(Math.random() * 9);
       y = Math.floor(Math.random() * 9);
