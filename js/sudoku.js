@@ -4,34 +4,35 @@ export class Sudoku {
   }
 
   solve() {
-    let solution = this.solver(this.board);
+    let blanks = this.getBlanks(this.board);
+    let solution = this.solver(this.board, blanks, 0);
     return solution;
   }
 
-  solver(board) {
+  solver(board, blanks, start) {
     // find first blank
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        if (!board[i][j]) {
-          let squareSolutions = []
-          for (let k = 1; k <= 9; k++) {
-            // fill in blank
-            board[i][j] = k;
-            // check if blank is legal
-            if (this.legal(board)) {
-              // if legal, recurse
-              let result = this.solver(board);
-              if (result) {
-                squareSolutions = squareSolutions.concat(result);
-              }
-            } // otherwise, try next number
-            board[i][j] = null;
-          }
-          if (squareSolutions.length === 0) {
-            return false;
-          } else {
-            return squareSolutions;
-          }
+    for (let i = start; i < blanks.length; i++) {
+      let x = blanks[i][0];
+      let y = blanks[i][1];
+      if (!board[x][y]) {
+        let squareSolutions = []
+        for (let k = 1; k <= 9; k++) {
+          // fill in blank
+          board[x][y] = k;
+          // check if blank is legal
+          if (this.legal(board)) {
+            // if legal, recurse
+            let result = this.solver(board, blanks, i + 1);
+            if (result) {
+              squareSolutions = squareSolutions.concat(result);
+            }
+          } // otherwise, try next number
+          board[x][y] = null;
+        }
+        if (squareSolutions.length === 0) {
+          return false;
+        } else {
+          return squareSolutions;
         }
       }
     }
@@ -41,6 +42,37 @@ export class Sudoku {
     } else {
       return false;
     }
+    // for (let i = 0; i < 9; i++) {
+    //   for (let j = 0; j < 9; j++) {
+    //     if (!board[i][j]) {
+    //       let squareSolutions = []
+    //       for (let k = 1; k <= 9; k++) {
+    //         // fill in blank
+    //         board[i][j] = k;
+    //         // check if blank is legal
+    //         if (this.legal(board)) {
+    //           // if legal, recurse
+    //           let result = this.solver(board);
+    //           if (result) {
+    //             squareSolutions = squareSolutions.concat(result);
+    //           }
+    //         } // otherwise, try next number
+    //         board[i][j] = null;
+    //       }
+    //       if (squareSolutions.length === 0) {
+    //         return false;
+    //       } else {
+    //         return squareSolutions;
+    //       }
+    //     }
+    //   }
+    // }
+    // if (this.full(board)) {
+    //   let copy = this.copy(board);
+    //   return [copy];
+    // } else {
+    //   return false;
+    // }
   }
 
   unsolve(difficulty) {
@@ -84,6 +116,18 @@ export class Sudoku {
         return board;
       }
     }
+  }
+
+  getBlanks(board) {
+    let blanks = [];
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if(!board[i][j]) {
+          blanks.push([i, j]);
+        }
+      }
+    }
+    return blanks;
   }
 
   copy(board) {
